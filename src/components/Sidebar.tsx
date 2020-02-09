@@ -26,6 +26,14 @@ const UsernameContainer = styled.div`
   margin-top: .5rem;
 `
 
+const Status = styled.span`
+  height: 1.2rem;
+  width: 1.2rem;
+  border-redius: 100%;
+  background-color: green;
+  margin-right: .5rem;
+`
+
 export function Sidebar() {
   return (
     <SidebarContainer>
@@ -36,6 +44,7 @@ export function Sidebar() {
           {/* <i className="far fa-bell"></i> */}
         </div>
         <UsernameContainer>
+          <Status></Status>
           Moke
         </UsernameContainer>
       </Header>
