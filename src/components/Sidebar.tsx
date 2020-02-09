@@ -27,11 +27,12 @@ const UsernameContainer = styled.div`
 `
 
 const Status = styled.span`
-  height: 1.2rem;
-  width: 1.2rem;
-  border-redius: 100%;
+  height: .7rem;
+  width: .7rem;
+  border-radius: 100%;
   background-color: green;
   margin-right: .5rem;
+  display: inline-block;
 `
 
 export function Sidebar() {
