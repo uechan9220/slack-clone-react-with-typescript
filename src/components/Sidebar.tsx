@@ -6,12 +6,12 @@ const SidebarContainer = styled.div`
   width: 100%;
   background: #5a00b4;
   width: 180px;
+  padding: 1rem;
+  color: white;
 `
 const Header = styled.header`
   display: grid;
   grid-template-columns: 1fr 25px;
-  color: white;
-  padding: 1rem;
   font-size: 1.2rem;
 `
 
@@ -49,8 +49,8 @@ export function Sidebar() {
           <Status></Status>
           Moke
         </UsernameContainer>
-        <Channels />
       </Header>
+      <Channels/>
     </SidebarContainer>
   )
 }
