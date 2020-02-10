@@ -7,7 +7,6 @@ const ChannelsTitles = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-
   h2 {
     font-size: 1rem;
   }
@@ -22,6 +21,7 @@ const Button = styled.button`
   padding: 5px;
   color: white;
   border: none;
+  font-size: 1rem;
   &.channel-button {
     margin-top: 1rem;
     i{
