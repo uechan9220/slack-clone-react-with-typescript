@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Channels } from './Channels'
+import { DirectMessages } from './DirectMessage'
 
 const SidebarContainer = styled.div`
   width: 100%;
@@ -24,15 +25,15 @@ const UsernameContainer = styled.div`
   font-size: 1rem;
   grid-column-start: 1;
   grid-column-end: 3;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 `
 
-const Status = styled.span`
-  height: .7rem;
-  width: .7rem;
+export const Status = styled.span`
+  height: 0.7rem;
+  width: 0.7rem;
   border-radius: 100%;
   background-color: green;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
   display: inline-block;
 `
 
@@ -50,7 +51,8 @@ export function Sidebar() {
           Moke
         </UsernameContainer>
       </Header>
-      <Channels/>
+      <Channels />
+      <DirectMessages />
     </SidebarContainer>
   )
 }
