@@ -3,6 +3,6 @@ import styled from 'styled-components'
 
 export function MessageBox(){
   return(
-    <div></div>
+    <div>test</div>
   )
 }
