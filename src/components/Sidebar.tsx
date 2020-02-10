@@ -1,9 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { Channels } from './Channels'
 
 const SidebarContainer = styled.div`
   width: 100%;
-  background: #b6cbe0;
+  background: #5a00b4;
   width: 180px;
 `
 const Header = styled.header`
@@ -48,6 +49,7 @@ export function Sidebar() {
           <Status></Status>
           Moke
         </UsernameContainer>
+        <Channels />
       </Header>
     </SidebarContainer>
   )
