@@ -6,7 +6,6 @@ import { DirectMessages } from './DirectMessage'
 const SidebarContainer = styled.div`
   width: 100%;
   background: #5a00b4;
-  width: 180px;
   padding: 1rem;
   color: white;
 `
