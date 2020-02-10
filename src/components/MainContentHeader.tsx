@@ -2,6 +2,8 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
+  z-index: 5;
+  background-color: white;
   position: fixed;
   top: 0;
   width: calc(100vw - 180px);

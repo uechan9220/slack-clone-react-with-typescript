@@ -16,7 +16,7 @@ const Header = styled.header`
 `
 
 const H1 = styled.h1`
-  font-weigth: 900;
+  font-weight: 900;
   font-size: 1.3rem;
 `
 
