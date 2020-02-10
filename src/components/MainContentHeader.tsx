@@ -6,7 +6,7 @@ const Container = styled.div`
   background-color: white;
   position: fixed;
   top: 0;
-  width: calc(100vw - 180px);
+  width: calc(100vw - 240px);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

@@ -12,6 +12,10 @@ const InputStyle = styled.input`
   &:focus {
     border: 3px solid dimgray;
   }
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 10px;
+  width: calc(100vw - 240px)
 `
 
 export function InputMessage() {

@@ -3,11 +3,13 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   margin-top: 85px;
+  overflow-y: auto;
+  height: calc(100vh - 185px);
   li {
     margin: 0.5rem 0;
   }
   p {
-    margin-top: .25px;
+    margin-top: 0.25px;
   }
 `
 
@@ -22,7 +24,103 @@ const DateSpan = styled.span`
 `
 
 export function MessageBox() {
+  const messageListRef = React.createRef<HTMLDivElement>()
+
+  React.useEffect(() => {
+    messageListRef.current!.scrollTo(messageListRef.current!.scrollTop, messageListRef.current!.scrollHeight)
+  }, [messageListRef])
+
   const message = [
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
+    {
+      message:
+        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
+      user: 'boku_doraemoon',
+      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
+    },
     {
       message:
         '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
@@ -61,7 +159,7 @@ export function MessageBox() {
     }
   ]
   return (
-    <Container>
+    <Container ref={messageListRef}>
       <ul>
         {message.map((message, index) => (
           <li key={index}>
