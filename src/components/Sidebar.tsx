@@ -81,7 +81,17 @@ export function Sidebar() {
                   .filter(membership => !membership.direct)
                   .map(membership => membership.Channel)}
               />
-              <DirectMessages />
+              <DirectMessages
+                channels={(data.Membership as Membership[]).reduce(
+                  (acc, value) => {
+                    if (value.direct) {
+                      return [...acc, value.Channel]
+                    }
+                    return acc
+                  },
+                  [] as Channel[]
+                )}
+              />
             </>
           ) : null}
         </SidebarContainer>

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Status } from './Sidebar'
+import { Channel } from './Channels'
 
 const MessagesTitles = styled.div`
   margin: 2rem 0 1rem;
@@ -17,8 +18,11 @@ const MessageItem = styled.ul`
   margin: 0.25rem;
 `
 
-export function DirectMessages() {
-  const Message = ['Bot', 'moke', 'Jane Doe', 't.yamada', 't.satou']
+interface DirectMessageProps {
+  channels: Channel[]
+}
+
+export function DirectMessages({channels}: DirectMessageProps) {
   return (
     <>
       <MessagesTitles>
@@ -26,8 +30,8 @@ export function DirectMessages() {
         <i className="fas fa-plus"></i>
       </MessagesTitles>
       <ul>
-        {Message.map(Message => (
-          <MessageItem key={Message}><Status></Status> {Message}</MessageItem>
+        {channels.map(channel => (
+          <MessageItem key={channel.id}><Status></Status> {channel.name}</MessageItem>
         ))}
       </ul>
     </>
