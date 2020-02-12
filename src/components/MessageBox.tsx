@@ -1,17 +1,20 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Query } from 'react-apollo'
+import { Query, Subscription } from 'react-apollo'
 import gql from 'graphql-tag'
+import { subscribe } from 'graphql'
 
 const messageQuery = gql`
   {
-    Message(
-      where: { channelId: { _eq: "82c255bb-924d-49de-a9f0-36f852b3e445" } }
-    ) {
-      body
-      data
-      User {
-        username
+    subscription {
+      Message(
+        where: { channelId: { _eq: "82c255bb-924d-49de-a9f0-36f852b3e445" } }
+      ) {
+        body
+        data
+        User {
+          username
+        }
       }
     }
   }
@@ -59,11 +62,11 @@ export function MessageBox() {
   }, [messageListRef])
 
   return (
-    <Query query={messageQuery}>
-      {({ loading, error, data }: any) => (
+    <Subscription subscription={messageQuery}>
+      {({ data, loading }: any) => (
         <Container ref={messageListRef}>
           <ul>
-            {!loading && data.Message
+            {!loading && data && data.Message
               ? (data.Message as Message[]).map(message => (
                   <li key={message.id}>
                     <UserName>{message.User.username}</UserName>
@@ -80,6 +83,6 @@ export function MessageBox() {
           </ul>
         </Container>
       )}
-    </Query>
+    </Subscription>
   )
 }
