@@ -24,13 +24,22 @@ const Button = styled.button`
   font-size: 1rem;
   &.channel-button {
     margin-top: 1rem;
-    i{
+    i {
       margin-right: 5px;
     }
   }
 `
 
-export function Channels() {
+export interface Channel {
+  id: string;
+  name: string;
+}
+
+interface ChannelProps {
+  channels: Channel[]
+}
+
+export function Channels({ channels }: ChannelProps) {
   const channel = ['announcements', 'general', 'frontend', 'backend', 'random']
   return (
     <>
@@ -39,9 +48,9 @@ export function Channels() {
         <i className="fas fa-plus"></i>
       </ChannelsTitles>
       <ul>
-        {channel.map(channel => (
-          <ChannelItem key={channel}># {channel}</ChannelItem>
-        ))}
+        {channels.map(channel => (
+              <ChannelItem key={channel.id}># {channel.name}</ChannelItem>
+            ))}
       </ul>
 
       <Button className="channel-button">

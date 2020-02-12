@@ -1,7 +1,23 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Channels } from './Channels'
+import { Channels, Channel } from './Channels'
 import { DirectMessages } from './DirectMessage'
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
+import { ApolloQueryResult } from 'apollo-boost'
+
+const membershipQuery = gql`
+  {
+    Membership(where: { userId: { _eq: "user1" } }) {
+      id
+      direct
+      Channel {
+        id
+        name
+      }
+    }
+  }
+`
 
 const SidebarContainer = styled.div`
   width: 100%;
@@ -36,22 +52,41 @@ export const Status = styled.span`
   display: inline-block;
 `
 
+interface Membership {
+  direct: boolean
+  id: string
+  Channel: Channel
+}
+
 export function Sidebar() {
   return (
-    <SidebarContainer>
-      <Header>
-        <H1>slack clone</H1>
-        <div>
-          {/* ここにベルを入れる */}
-          <i className='far fa-bell'></i>
-        </div>
-        <UsernameContainer>
-          <Status></Status>
-          Moke
-        </UsernameContainer>
-      </Header>
-      <Channels />
-      <DirectMessages />
-    </SidebarContainer>
+    <Query query={membershipQuery}>
+      {({ loading, error, data }: any) => (
+        <SidebarContainer>
+          {!loading && console.log(data)}
+          <Header>
+            <H1>slack clone</H1>
+            <div>
+              {/* ここにベルを入れる */}
+              <i className="far fa-bell"></i>
+            </div>
+            <UsernameContainer>
+              <Status></Status>
+              Moke
+            </UsernameContainer>
+          </Header>
+          {!loading && data.Membership ? (
+            <>
+              <Channels
+                channels={(data.Membership as Membership[])
+                  .filter(membership => !membership.direct)
+                  .map(membership => membership.Channel)}
+              />
+              <DirectMessages />
+            </>
+          ) : null}
+        </SidebarContainer>
+      )}
+    </Query>
   )
 }
