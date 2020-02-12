@@ -1,5 +1,21 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { Query } from 'react-apollo'
+import gql from 'graphql-tag'
+
+const messageQuery = gql`
+  {
+    Message(
+      where: { channelId: { _eq: "82c255bb-924d-49de-a9f0-36f852b3e445" } }
+    ) {
+      body
+      data
+      User {
+        username
+      }
+    }
+  }
+`
 
 const Container = styled.div`
   margin-top: 85px;
@@ -23,154 +39,47 @@ const DateSpan = styled.span`
   color: darkgray;
 `
 
+interface Message {
+  id: string
+  body: string
+  data: string
+  User: {
+    username: string
+  }
+}
+
 export function MessageBox() {
   const messageListRef = React.createRef<HTMLDivElement>()
 
   React.useEffect(() => {
-    messageListRef.current!.scrollTo(messageListRef.current!.scrollTop, messageListRef.current!.scrollHeight)
+    messageListRef.current!.scrollTo(
+      messageListRef.current!.scrollTop,
+      messageListRef.current!.scrollHeight
+    )
   }, [messageListRef])
 
-  const message = [
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    },
-    {
-      message:
-        '今夜は月がきれいですね。ですが僕は月よりも寿司が好きです。ちなみに今日誕生日の人いますか？',
-      user: 'boku_doraemoon',
-      date: 'Sat Feb 11 2020 12:00:00 GMT+0900 (CEST)'
-    }
-  ]
   return (
-    <Container ref={messageListRef}>
-      <ul>
-        {message.map((message, index) => (
-          <li key={index}>
-            <UserName>{message.user}</UserName>
-            <DateSpan>
-              {new Intl.DateTimeFormat('en-GB').format(new Date(message.date))}
-            </DateSpan>
-            <p>{message.message}</p>
-          </li>
-        ))}
-      </ul>
-    </Container>
+    <Query query={messageQuery}>
+      {({ loading, error, data }: any) => (
+        <Container ref={messageListRef}>
+          <ul>
+            {!loading && data.Message
+              ? (data.Message as Message[]).map(message => (
+                  <li key={message.id}>
+                    <UserName>{message.User.username}</UserName>
+                    <DateSpan>
+                      {/* {new Intl.DateTimeFormat('en-GB').format(
+                    new Date(message.data)
+                  )} */}
+                      {message.data}
+                    </DateSpan>
+                    <p>{message.body}</p>
+                  </li>
+                ))
+              : null}
+          </ul>
+        </Container>
+      )}
+    </Query>
   )
 }
