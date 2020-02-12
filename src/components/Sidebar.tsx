@@ -67,7 +67,6 @@ export function Sidebar() {
           <Header>
             <H1>slack clone</H1>
             <div>
-              {/* ここにベルを入れる */}
               <i className="far fa-bell"></i>
             </div>
             <UsernameContainer>
