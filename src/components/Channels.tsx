@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { ChannelProps } from '../generated/ChannelQuery'
+import { StoreContext } from '../store/store'
 
 const ChannelsTitles = styled.div`
   margin: 2rem 0 1rem;
@@ -32,7 +33,11 @@ const Button = styled.button`
 `
 
 export function Channels({ channels }: ChannelProps) {
-  const channel = ['announcements', 'general', 'frontend', 'backend', 'random']
+  const { dispatch } = React.useContext(StoreContext)
+
+  const selectChannel = (id: string) => {
+    dispatch({ type: 'SELECTED_CHANNEL', payload: id })
+  }
   return (
     <>
       <ChannelsTitles>
@@ -41,7 +46,12 @@ export function Channels({ channels }: ChannelProps) {
       </ChannelsTitles>
       <ul>
         {channels.map(channel => (
-          <ChannelItem key={channel.id}># {channel.name}</ChannelItem>
+          <ChannelItem
+            onClick={() => selectChannel(channel.id)}
+            key={channel.id}
+          >
+            # {channel.name}
+          </ChannelItem>
         ))}
       </ul>
 

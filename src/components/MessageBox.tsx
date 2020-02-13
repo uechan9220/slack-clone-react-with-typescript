@@ -6,7 +6,7 @@ import { subscribe } from 'graphql'
 import { Message } from '../generated/MessageQuery'
 
 const messageQuery = gql`
-  query {
+  {
     Message(
       where: { channelId: { _eq: "82c255bb-924d-49de-a9f0-36f852b3e445" } }
     ) {
@@ -58,8 +58,8 @@ export function MessageBox() {
           <ul>
             {console.log(data)}
             {!loading && data && data.Message
-              ? (data.Message as Message[]).map(message => (
-                  <li key={message.id}>
+              ? (data.Message as Message[]).map((message, index) => (
+                  <li key={index}>
                     <UserName>{message.User.username}</UserName>
                     <DateSpan>
                       {/* {new Intl.DateTimeFormat('en-GB').format(

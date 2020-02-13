@@ -4,7 +4,7 @@ const initialStoreValue = {
   selectedChannel: ''
 }
 
-const StoreContext = React.createContext<Context>({...initialStoreValue, dispatch: () => 'test'})
+export const StoreContext = React.createContext<Context>({...initialStoreValue, dispatch: () => 'test'})
 
 type Action = { type: 'SELECTED_CHANNEL'; payload: string }
 interface State {

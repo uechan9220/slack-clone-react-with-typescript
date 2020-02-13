@@ -8,6 +8,7 @@ import { ApolloProvider } from 'react-apollo'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import { createHttpLink } from 'apollo-link-http'
+import { StoreContextProvider } from './store/store'
 
 const wsLink = new WebSocketLink({
   uri: `ws://slack-clone-heroku.herokuapp.com/v1/graphql`,
@@ -39,11 +40,13 @@ const client = new ApolloClient({
 
 const App = () => {
   return (
-    <ApolloProvider client={client}>
-      <div>
-        <Layout />
-      </div>
-    </ApolloProvider>
+    <StoreContextProvider>
+      <ApolloProvider client={client}>
+        <div>
+          <Layout />
+        </div>
+      </ApolloProvider>
+    </StoreContextProvider>
   )
 }
 
