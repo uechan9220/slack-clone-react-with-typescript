@@ -34,7 +34,7 @@ interface Props {
 
 export function StoreContextProvider(props: Props) {
   const [store, dispatch] = React.useReducer(storeReducer, initialStoreValue);
-  console.log
+  console.log(store)
   return(
     <StoreContext.Provider value={{...store, dispatch}}>
       {props.children}
