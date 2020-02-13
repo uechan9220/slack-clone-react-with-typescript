@@ -1,14 +1,29 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Query } from 'react-apollo'
+import { Query, QueryResult } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Message } from '../generated/MessageQuery'
+import { StoreContext } from '../store/store'
 
 const messageQuery = gql`
-  {
+  query MessageQuery($channelId: uuid){
     Message(
-      where: { channelId: { _eq: "82c255bb-924d-49de-a9f0-36f852b3e445" } }
+      where: { channelId: { _eq: $channelId } }
     ) {
+      body
+      data
+      User {
+        username
+      }
+    }
+  }
+`
+
+const messageSubscription = gql`
+  subscription MessageSubscription($channelId: uuid) {
+    Message(
+       where: { channelId: { _eq: $channelId } }
+    ){
       body
       data
       User {
@@ -42,6 +57,7 @@ const DateSpan = styled.span`
 
 export function MessageBox() {
   const messageListRef = React.createRef<HTMLDivElement>()
+  const { selectedChannel } = React.useContext(StoreContext)
 
   React.useEffect(() => {
     messageListRef.current!.scrollTo(
@@ -50,9 +66,19 @@ export function MessageBox() {
     )
   }, [messageListRef])
 
+  const subscription = (subscribeToMore: any) => {
+    subscribeToMore({
+      document: messageSubscription,
+      updateQuery: (prev: Message[], { subscriptionData }: any) => {
+        if (!subscriptionData.data) return prev
+        return subscriptionData.data
+      }
+    })
+  }
+
   return (
-    <Query query={messageQuery}>
-      {({ data, loading }: any) => (
+    <Query query={messageQuery} variables={{channelId: selectedChannel}}>
+      {({ data, loading, subscribeToMore}: any) => (
         <Container ref={messageListRef}>
           <ul>
             {console.log(data)}
