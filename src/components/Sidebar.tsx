@@ -1,10 +1,13 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Channels, Channel } from './Channels'
+import { Channels } from './Channels'
 import { DirectMessages } from './DirectMessage'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { ApolloQueryResult } from 'apollo-boost'
+
+import { Channel } from '../generated/ChannelQuery'
+import { Membership } from '../generated/SidebarQuery'
 
 const membershipQuery = gql`
   {
@@ -51,12 +54,6 @@ export const Status = styled.span`
   margin-right: 0.5rem;
   display: inline-block;
 `
-
-interface Membership {
-  direct: boolean
-  id: string
-  Channel: Channel
-}
 
 export function Sidebar() {
   return (

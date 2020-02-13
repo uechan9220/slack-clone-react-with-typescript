@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Query, Subscription } from 'react-apollo'
 import gql from 'graphql-tag'
 import { subscribe } from 'graphql'
+import { Message } from '../generated/MessageQuery'
 
 const messageQuery = gql`
   query {
@@ -39,15 +40,6 @@ const UserName = styled.span`
 const DateSpan = styled.span`
   color: darkgray;
 `
-
-interface Message {
-  id: string
-  body: string
-  data: string
-  User: {
-    username: string
-  }
-}
 
 export function MessageBox() {
   const messageListRef = React.createRef<HTMLDivElement>()

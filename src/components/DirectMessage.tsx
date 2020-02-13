@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Status } from './Sidebar'
-import { Channel } from './Channels'
+import { DirectMessageProps } from '../generated/DirectMessageQuery'
 
 const MessagesTitles = styled.div`
   margin: 2rem 0 1rem;
@@ -17,10 +17,6 @@ const MessagesTitles = styled.div`
 const MessageItem = styled.ul`
   margin: 0.25rem;
 `
-
-interface DirectMessageProps {
-  channels: Channel[]
-}
 
 export function DirectMessages({channels}: DirectMessageProps) {
   return (

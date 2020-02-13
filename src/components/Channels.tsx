@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { ChannelProps } from '../generated/ChannelQuery'
 
 const ChannelsTitles = styled.div`
   margin: 2rem 0 1rem;
@@ -30,15 +31,6 @@ const Button = styled.button`
   }
 `
 
-export interface Channel {
-  id: string;
-  name: string;
-}
-
-interface ChannelProps {
-  channels: Channel[]
-}
-
 export function Channels({ channels }: ChannelProps) {
   const channel = ['announcements', 'general', 'frontend', 'backend', 'random']
   return (
@@ -49,8 +41,8 @@ export function Channels({ channels }: ChannelProps) {
       </ChannelsTitles>
       <ul>
         {channels.map(channel => (
-              <ChannelItem key={channel.id}># {channel.name}</ChannelItem>
-            ))}
+          <ChannelItem key={channel.id}># {channel.name}</ChannelItem>
+        ))}
       </ul>
 
       <Button className="channel-button">
