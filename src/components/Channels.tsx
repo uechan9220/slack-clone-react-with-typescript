@@ -1,7 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { ChannelProps } from '../generated/ChannelQuery'
-import { StoreContext } from '../store/store'
+import { StoreContext, Actions } from '../store/store'
+
 
 const ChannelsTitles = styled.div`
   margin: 2rem 0 1rem;
@@ -36,7 +37,7 @@ export function Channels({ channels }: ChannelProps) {
   const { dispatch } = React.useContext(StoreContext)
 
   const selectChannel = (id: string) => {
-    dispatch({ type: 'SELECTED_CHANNEL', payload: id })
+    dispatch({ type: Actions.SELECTED_CHANNEL, payload: id })
   }
   return (
     <>

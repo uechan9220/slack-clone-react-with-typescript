@@ -4,9 +4,13 @@ const initialStoreValue = {
   selectedChannel: ''
 }
 
+export enum Actions {
+  "SELECTED_CHANNEL"
+}
+
 export const StoreContext = React.createContext<Context>({...initialStoreValue, dispatch: () => 'test'})
 
-type Action = { type: 'SELECTED_CHANNEL'; payload: string }
+type Action = { type: Actions.SELECTED_CHANNEL; payload: string }
 interface State {
   selectedChannel: string
 }
@@ -17,7 +21,7 @@ interface Context extends State {
 
 function storeReducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'SELECTED_CHANNEL':
+    case Actions.SELECTED_CHANNEL:
       return { selectedChannel: action.payload };
     default:
       throw new Error()
@@ -30,6 +34,7 @@ interface Props {
 
 export function StoreContextProvider(props: Props) {
   const [store, dispatch] = React.useReducer(storeReducer, initialStoreValue);
+  console.log
   return(
     <StoreContext.Provider value={{...store, dispatch}}>
       {props.children}
