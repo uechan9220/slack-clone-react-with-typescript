@@ -4,7 +4,6 @@ import { Channels } from './Channels'
 import { DirectMessages } from './DirectMessage'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
-import { ApolloQueryResult } from 'apollo-boost'
 
 import { Channel } from '../generated/ChannelQuery'
 import { Membership } from '../generated/SidebarQuery'

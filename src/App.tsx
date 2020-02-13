@@ -1,9 +1,8 @@
 import React from 'react'
-import logo from './logo.svg'
 import './App.css'
 import { Layout } from './components/Layout'
 
-import ApolloClient, { split, HttpLink, InMemoryCache } from 'apollo-boost'
+import ApolloClient, { split } from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'

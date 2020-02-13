@@ -1,8 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Query, Subscription } from 'react-apollo'
+import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
-import { subscribe } from 'graphql'
 import { Message } from '../generated/MessageQuery'
 
 const messageQuery = gql`

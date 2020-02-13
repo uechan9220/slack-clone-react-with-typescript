@@ -56,7 +56,7 @@ export function InputMessage() {
         <form
           onSubmit={e => {
             console.log((e.target as any).message.value)
-            if ((e.target as any).message.value == 0) {
+            if ((e.target as any).message.value === 0) {
               alert('メッセージ入力をお願いします')
             } else {
               e.preventDefault()
