@@ -5,16 +5,14 @@ import gql from 'graphql-tag'
 import { subscribe } from 'graphql'
 
 const messageQuery = gql`
-  {
-    subscription {
-      Message(
-        where: { channelId: { _eq: "82c255bb-924d-49de-a9f0-36f852b3e445" } }
-      ) {
-        body
-        data
-        User {
-          username
-        }
+  query {
+    Message(
+      where: { channelId: { _eq: "82c255bb-924d-49de-a9f0-36f852b3e445" } }
+    ) {
+      body
+      data
+      User {
+        username
       }
     }
   }
@@ -62,10 +60,11 @@ export function MessageBox() {
   }, [messageListRef])
 
   return (
-    <Subscription subscription={messageQuery}>
+    <Query query={messageQuery}>
       {({ data, loading }: any) => (
         <Container ref={messageListRef}>
           <ul>
+            {console.log(data)}
             {!loading && data && data.Message
               ? (data.Message as Message[]).map(message => (
                   <li key={message.id}>
@@ -83,6 +82,6 @@ export function MessageBox() {
           </ul>
         </Container>
       )}
-    </Subscription>
+    </Query>
   )
 }
