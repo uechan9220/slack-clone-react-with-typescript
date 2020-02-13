@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { ChannelProps } from '../generated/ChannelQuery'
 import { StoreContext, Actions } from '../store/store'
+import { Item } from './DirectMessage'
 
 
 const ChannelsTitles = styled.div`
@@ -13,10 +14,6 @@ const ChannelsTitles = styled.div`
   h2 {
     font-size: 1rem;
   }
-`
-
-const ChannelItem = styled.ul`
-  margin: 0.25rem;
 `
 
 const Button = styled.button`
@@ -47,12 +44,12 @@ export function Channels({ channels }: ChannelProps) {
       </ChannelsTitles>
       <ul>
         {channels.map(channel => (
-          <ChannelItem
+          <Item
             onClick={() => selectChannel(channel.id)}
             key={channel.id}
           >
             # {channel.name}
-          </ChannelItem>
+          </Item>
         ))}
       </ul>
 

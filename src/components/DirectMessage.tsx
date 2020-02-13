@@ -15,8 +15,9 @@ const MessagesTitles = styled.div`
   }
 `
 
-const MessageItem = styled.ul`
+export const Item = styled.ul`
   margin: 0.25rem;
+  cursor: pointer;
 `
 
 export function DirectMessages({ channels }: DirectMessageProps) {
@@ -33,7 +34,7 @@ export function DirectMessages({ channels }: DirectMessageProps) {
       </MessagesTitles>
       <ul>
         {channels.map(channel => (
-          <MessageItem onClick={() => selectChannel(channel.id)} key={channel.id}><Status></Status> {channel.name}</MessageItem>
+          <Item onClick={() => selectChannel(channel.id)} key={channel.id}><Status></Status> {channel.name}</Item>
         ))}
       </ul>
     </>
