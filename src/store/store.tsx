@@ -1,7 +1,9 @@
 import * as React from 'react'
 
 const initialStoreValue = {
-  selectedChannel: ''
+  selectedChannel:
+    localStorage.getItem('selected_channel') ||
+    '82c255bb-924d-49de-a9f0-36f852b3e445'
 }
 
 export enum Actions {
@@ -34,6 +36,9 @@ interface Props {
 
 export function StoreContextProvider(props: Props) {
   const [store, dispatch] = React.useReducer(storeReducer, initialStoreValue);
+  React.useEffect(() => {
+    localStorage.setItem('selecte_channel', store.selectedChannel)
+  }, [store.selectedChannel])
   console.log(store)
   return(
     <StoreContext.Provider value={{...store, dispatch}}>
