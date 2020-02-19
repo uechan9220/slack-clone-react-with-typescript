@@ -79,7 +79,7 @@ export function MessageBox() {
       document: messageSubscription,
       updataQuery: (prev: Message[], { subscriptionData }: any) => {
         if (!subscriptionData.data) return prev
-        return subscriptionData.data
+        return Object.assign({}, prev, subscriptionData.data)
       }
     })
   }
