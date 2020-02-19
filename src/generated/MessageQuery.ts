@@ -9,7 +9,7 @@ export interface MessageQuery_Message_User {
 export interface MessageQuery_Message {
   id: any
   body: string
-  date: any
+  data: any
   User: MessageQuery_Message_User
 }
 

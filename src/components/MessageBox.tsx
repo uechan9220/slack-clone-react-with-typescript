@@ -22,7 +22,7 @@ const messageSubscription = gql`
   subscription MessageSubscription($channelId: uuid) {
     Message(where: { channelId: { _eq: $channelId } }) {
       id
-      date
+      data
       body
       User {
         username
@@ -49,14 +49,14 @@ const Username = styled.span`
   font-size: 1.2rem;
 `
 
-const DateSpan = styled.span`
+const DataSpan = styled.span`
   color: darkgrey;
 `
 
 interface Message {
   id: string
   body: string
-  date: string
+  data: string
   User: {
     username: string
   }
@@ -64,7 +64,7 @@ interface Message {
 
 export function MessageBox() {
   const messageListRef = React.createRef<HTMLDivElement>()
-  const { selectedChannel }: any = React.useContext(StoreContext)
+  const { selectedChannel } = React.useContext(StoreContext)
 
   React.useEffect(() => {
     messageListRef.current!.scrollTo(
@@ -75,17 +75,17 @@ export function MessageBox() {
 
   const subscription = (subscribeToMore: any) => {
     subscribeToMore({
-      variables: { channelId: selectedChannel.id },
+      variables: { channelId: selectedChannel },
       document: messageSubscription,
-      updateQuery: (prev: Message[], { subscriptionData }: any) => {
+      updataQuery: (prev: Message[], { subscriptionData }: any) => {
         if (!subscriptionData.data) return prev
-        return Object.assign({}, prev, subscriptionData.data)
+        return subscriptionData.data
       }
     })
   }
 
   return (
-    <Query query={messageQuery} variables={{ channelId: selectedChannel.id }}>
+    <Query query={messageQuery} variables={{ channelId: selectedChannel }}>
       {({
         loading,
         error,
@@ -97,14 +97,15 @@ export function MessageBox() {
           <Container ref={messageListRef}>
             <ul>
               {error ? error : null}
+              {/* {data && data!.Message ? <p>Select a channel</p> : null} */}
               {!loading
                 ? (data!.Message as Message[]).map((message, index) => {
                     return (
                       <li key={message.id}>
                         <Username>{message.User.username}</Username>
-                        <DateSpan>
-                          {message.date}
-                        </DateSpan>
+                        <DataSpan>
+                          {message.data}
+                        </DataSpan>
                         <p>{message.body}</p>
                       </li>
                     )
