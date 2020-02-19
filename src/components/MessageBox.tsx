@@ -75,7 +75,7 @@ export function MessageBox() {
 
   const subscription = (subscribeToMore: any) => {
     subscribeToMore({
-      variables: { channelId: selectedChannel },
+      variables: { channelId: selectedChannel.id },
       document: messageSubscription,
       updataQuery: (prev: Message[], { subscriptionData }: any) => {
         if (!subscriptionData.data) return prev
@@ -85,7 +85,7 @@ export function MessageBox() {
   }
 
   return (
-    <Query query={messageQuery} variables={{ channelId: selectedChannel }}>
+    <Query query={messageQuery} variables={{ channelId: selectedChannel.id }}>
       {({
         loading,
         error,
@@ -103,9 +103,7 @@ export function MessageBox() {
                     return (
                       <li key={message.id}>
                         <Username>{message.User.username}</Username>
-                        <DataSpan>
-                          {message.data}
-                        </DataSpan>
+                        <DataSpan>{message.data}</DataSpan>
                         <p>{message.body}</p>
                       </li>
                     )

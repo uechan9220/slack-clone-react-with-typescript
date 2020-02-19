@@ -23,8 +23,8 @@ export const Item = styled.ul`
 export function DirectMessages({ channels }: DirectMessageProps) {
    const { dispatch } = React.useContext(StoreContext)
 
-   const selectChannel = (id: string) => {
-     dispatch({ type: Actions.SELECTED_CHANNEL, payload: id })
+   const selectChannel = (channel: { id: string; name: string }) => {
+     dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })
    }
   return (
     <>
@@ -34,7 +34,7 @@ export function DirectMessages({ channels }: DirectMessageProps) {
       </MessagesTitles>
       <ul>
         {channels.map(channel => (
-          <Item onClick={() => selectChannel(channel.id)} key={channel.id}><Status></Status> {channel.name}</Item>
+          <Item onClick={() => selectChannel({ id: channel.id, name: channel.name })} key={channel.id}><Status></Status> {channel.name}</Item>
         ))}
       </ul>
     </>

@@ -33,8 +33,8 @@ const Button = styled.button`
 export function Channels({ channels }: ChannelProps) {
   const { dispatch } = React.useContext(StoreContext)
 
-  const selectChannel = (id: string) => {
-    dispatch({ type: Actions.SELECTED_CHANNEL, payload: id })
+  const selectChannel = (channel: {id: string, name: string}) => {
+    dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })
   }
   return (
     <>
@@ -45,7 +45,7 @@ export function Channels({ channels }: ChannelProps) {
       <ul>
         {channels.map(channel => (
           <Item
-            onClick={() => selectChannel(channel.id)}
+            onClick={() => selectChannel({ id: channel.id, name: channel.name })}
             key={channel.id}
           >
             # {channel.name}

@@ -1,20 +1,26 @@
 import * as React from 'react'
 
+const initialChannel = localStorage.getItem('selected_channel')
+  ? JSON.parse(localStorage.getItem('selected_channel')!)
+  : { id: '82c255bb-924d-49de-a9f0-36f852b3e445', name: 'general' }
+
 const initialStoreValue = {
-  selectedChannel:
-    localStorage.getItem('selected_channel') ||
-    '82c255bb-924d-49de-a9f0-36f852b3e445'
+  selectedChannel: initialChannel
 }
 
 export enum Actions {
-  "SELECTED_CHANNEL"
+  'SELECTED_CHANNEL'
 }
 
-export const StoreContext = React.createContext<Context>({...initialStoreValue, dispatch: () => 'test'})
+export const StoreContext = React.createContext<Context>({
+  ...initialStoreValue,
+  dispatch: () => 'test'
+})
 
-type Action = { type: Actions.SELECTED_CHANNEL; payload: string }
+type Action = { type: Actions.SELECTED_CHANNEL; payload: any }
+
 interface State {
-  selectedChannel: string
+  selectedChannel: { id: string; name: string }
 }
 
 interface Context extends State {
@@ -24,7 +30,7 @@ interface Context extends State {
 function storeReducer(state: State, action: Action): State {
   switch (action.type) {
     case Actions.SELECTED_CHANNEL:
-      return { selectedChannel: action.payload };
+      return { selectedChannel: action.payload }
     default:
       throw new Error()
   }
@@ -35,13 +41,16 @@ interface Props {
 }
 
 export function StoreContextProvider(props: Props) {
-  const [store, dispatch] = React.useReducer(storeReducer, initialStoreValue);
+  const [store, dispatch] = React.useReducer(storeReducer, initialStoreValue)
   React.useEffect(() => {
-    localStorage.setItem('selecte_channel', store.selectedChannel)
+    localStorage.setItem(
+      'selecte_channel',
+      JSON.stringify(store.selectedChannel)
+    )
   }, [store.selectedChannel])
   console.log(store)
-  return(
-    <StoreContext.Provider value={{...store, dispatch}}>
+  return (
+    <StoreContext.Provider value={{ ...store, dispatch }}>
       {props.children}
     </StoreContext.Provider>
   )

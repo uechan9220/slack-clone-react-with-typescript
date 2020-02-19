@@ -65,7 +65,7 @@ export function InputMessage() {
               submitMessage({
                 variables: {
                   userId: 'user1',
-                  channelId: selectedChannel,
+                  channelId: selectedChannel.id,
                   body: (e.target as any).message.value
                 }
               })
