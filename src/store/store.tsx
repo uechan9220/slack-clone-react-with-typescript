@@ -5,11 +5,13 @@ const initialChannel = localStorage.getItem('selected_channel')
   : { id: '82c255bb-924d-49de-a9f0-36f852b3e445', name: 'general' }
 
 const initialStoreValue = {
-  selectedChannel: initialChannel
+  selectedChannel: initialChannel,
+  user: localStorage.getItem('current_user') || ''
 }
 
 export enum Actions {
-  'SELECTED_CHANNEL'
+  'SELECTED_CHANNEL',
+  'USER'
 }
 
 export const StoreContext = React.createContext<Context>({
@@ -17,10 +19,17 @@ export const StoreContext = React.createContext<Context>({
   dispatch: () => 'test'
 })
 
-type Action = { type: Actions.SELECTED_CHANNEL; payload: any }
+type SelectedChannelAction = {
+  type: Actions.SELECTED_CHANNEL
+  payload: { id: string; name: string }
+}
+type UserAction = { type: Actions.USER; payload: string }
+
+type Action = SelectedChannelAction | UserAction
 
 interface State {
   selectedChannel: { id: string; name: string }
+  user: string
 }
 
 interface Context extends State {
@@ -30,7 +39,9 @@ interface Context extends State {
 function storeReducer(state: State, action: Action): State {
   switch (action.type) {
     case Actions.SELECTED_CHANNEL:
-      return { selectedChannel: action.payload }
+      return {...state, selectedChannel: action.payload }
+    case Actions.USER:
+      return {...state, user : action.payload }
     default:
       throw new Error()
   }
@@ -48,6 +59,16 @@ export function StoreContextProvider(props: Props) {
       JSON.stringify(store.selectedChannel)
     )
   }, [store.selectedChannel])
+
+  React.useEffect(() => {
+    if (!store.user) {
+      const value = prompt('Select a user')
+      if (value) {
+        localStorage.setItem('current_user', value)
+      }
+    }
+  }, [])
+
   console.log(store)
   return (
     <StoreContext.Provider value={{ ...store, dispatch }}>

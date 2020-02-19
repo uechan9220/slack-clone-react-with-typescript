@@ -51,20 +51,21 @@ const submitMessageMutation = gql`
 `
 
 export function InputMessage() {
-  const { selectedChannel } = React.useContext(StoreContext)
+  const { selectedChannel,user } = React.useContext(StoreContext)
   return (
     <Mutation mutation={submitMessageMutation}>
       {(submitMessage: any, { data }: any) => (
         <form
           onSubmit={e => {
             console.log((e.target as any).message.value)
+            console.log(user)
             if ((e.target as any).message.value === 0) {
               alert('メッセージ入力をお願いします')
             } else {
               e.preventDefault()
               submitMessage({
                 variables: {
-                  userId: 'user1',
+                  userId: user,
                   channelId: selectedChannel.id,
                   body: (e.target as any).message.value
                 }
