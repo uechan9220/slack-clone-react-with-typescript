@@ -29,7 +29,7 @@ const SubmitButton = styled.button`
   border-left: 3px solid darkgray;
   position: fixed;
   box-sizing: border-box;
-  padding: 1.125rem;
+  padding: 1rem;
   right: 15px;
   bottom: 15px;
   cursor: pointer;
