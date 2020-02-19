@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { ChannelProps } from '../generated/ChannelQuery'
 import { StoreContext, Actions } from '../store/store'
 import { Item } from './DirectMessage'
-
+import { Finder } from './Finder'
 
 const ChannelsTitles = styled.div`
   margin: 2rem 0 1rem;
@@ -32,20 +32,24 @@ const Button = styled.button`
 
 export function Channels({ channels }: ChannelProps) {
   const { dispatch } = React.useContext(StoreContext)
+  const [isModalOpen, setModal] = React.useState(false)
 
-  const selectChannel = (channel: {id: string, name: string}) => {
+  const selectChannel = (channel: { id: string; name: string }) => {
     dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })
   }
   return (
     <>
+      {isModalOpen ? <Finder exitCallback={() => setModal(false)} /> : null}
       <ChannelsTitles>
         <h2>Channels</h2>
-        <i className="fas fa-plus"></i>
+        <i className="fas fa-plus" onClick={() => setModal(true)}></i>
       </ChannelsTitles>
       <ul>
         {channels.map(channel => (
           <Item
-            onClick={() => selectChannel({ id: channel.id, name: channel.name })}
+            onClick={() =>
+              selectChannel({ id: channel.id, name: channel.name })
+            }
             key={channel.id}
           >
             # {channel.name}
