@@ -32,7 +32,7 @@ const Button = styled.button`
 
 export function Channels({ channels }: ChannelProps) {
   const { dispatch } = React.useContext(StoreContext)
-  const [isModalOpen, setModal] = React.useState(true)
+  const [isModalOpen, setModal] = React.useState(false)
 
   const selectChannel = (channel: { id: string; name: string }) => {
     dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })

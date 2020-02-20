@@ -7,10 +7,11 @@ import { Query } from 'react-apollo'
 
 import { Channel } from '../generated/ChannelQuery'
 import { Membership } from '../generated/SidebarQuery'
+import { StoreContext } from '../store/store'
 
 const membershipQuery = gql`
-  {
-    Membership(where: { userId: { _eq: "user1" } }) {
+  query($user: String!) {
+    Membership(where: { userId: { _eq: $user } }) {
       id
       direct
       Channel {
@@ -55,8 +56,11 @@ export const Status = styled.span`
 `
 
 export function Sidebar() {
+  const { user } = React.useContext(StoreContext)
+  console.log(user)
+
   return (
-    <Query query={membershipQuery}>
+    <Query query={membershipQuery} variables={{ user: user }}>
       {({ loading, error, data }: any) => (
         <SidebarContainer>
           {!loading && console.log(data)}
