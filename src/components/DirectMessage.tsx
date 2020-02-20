@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Status } from './Sidebar'
 import { DirectMessageProps } from '../generated/DirectMessageQuery'
 import { StoreContext, Actions } from '../store/store'
+import { Item } from '../styles/SidebarItem.styles'
 
 const MessagesTitles = styled.div`
   margin: 2rem 0 1rem;
@@ -13,11 +14,6 @@ const MessagesTitles = styled.div`
   h2 {
     font-size: 1rem;
   }
-`
-
-export const Item = styled.ul`
-  margin: 0.25rem;
-  cursor: pointer;
 `
 
 export function DirectMessages({ channels }: DirectMessageProps) {

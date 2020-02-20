@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { ChannelProps } from '../generated/ChannelQuery'
 import { StoreContext, Actions } from '../store/store'
-import { Item } from './DirectMessage'
+import { Item } from '../styles/SidebarItem.styles'
 import { Finder } from './Finder'
 
 const ChannelsTitles = styled.div`
