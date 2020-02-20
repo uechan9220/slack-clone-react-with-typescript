@@ -1,8 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { StoreContext } from '../store/store'
+import { CreateChannelMutation, CreateMembership } from '../data/mutations'
 
 interface Props {
   exitCallback: () => void
@@ -61,27 +61,6 @@ const Form = styled.form`
     width: 100%;
     padding: 1rem;
     border: 1px solid black;
-  }
-`
-
-const CreateChannelMutation = gql`
-  mutation CreateChannel($name: String!) {
-    insert_Channel(objects: { name: $name, group: "" }) {
-      returning {
-        id
-        name
-      }
-    }
-  }
-`
-
-const CreateMembership = gql`
-  mutation CreateMembership($userId: String, $channelId: uuid) {
-    insert_Membership(objects: { userId: $userId, channelId: $channelId }) {
-      returning {
-        id
-      }
-    }
   }
 `
 

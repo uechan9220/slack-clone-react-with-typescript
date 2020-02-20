@@ -1,8 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { StoreContext } from '../store/store'
+import { submitMessageMutation } from '../data/mutations'
 
 const InputStyle = styled.input`
   padding: 1rem;
@@ -33,21 +33,6 @@ const SubmitButton = styled.button`
   right: 15px;
   bottom: 15px;
   cursor: pointer;
-`
-
-const submitMessageMutation = gql`
-  mutation SubmitMessage($userId: String!, $body: String, $channelId: uuid!) {
-    insert_Message(
-      objects: { userId: $userId, body: $body, channelId: $channelId }
-    ) {
-      returning {
-        userId
-        id
-        body
-        channelId
-      }
-    }
-  }
 `
 
 export function InputMessage() {
