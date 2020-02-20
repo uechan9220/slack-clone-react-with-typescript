@@ -4,19 +4,7 @@ import { Query, QueryResult } from 'react-apollo'
 import gql from 'graphql-tag'
 import { MessageQuery } from '../generated/MessageQuery'
 import { StoreContext } from '../store/store'
-
-const messageQuery = gql`
-  query MessageQuery($channelId: uuid) {
-    Message(where: { channelId: { _eq: $channelId } }) {
-      id
-      body
-      data
-      User {
-        username
-      }
-    }
-  }
-`
+import { messageQuery } from '../data/queries'
 
 const messageSubscription = gql`
   subscription MessageSubscription($channelId: uuid) {

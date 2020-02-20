@@ -2,25 +2,13 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Channels } from './Channels'
 import { DirectMessages } from './DirectMessage'
-import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 
 import { Channel } from '../generated/ChannelQuery'
 import { Membership } from '../generated/SidebarQuery'
 import { StoreContext } from '../store/store'
 
-const membershipQuery = gql`
-  query($user: String!) {
-    Membership(where: { userId: { _eq: $user } }) {
-      id
-      direct
-      Channel {
-        id
-        name
-      }
-    }
-  }
-`
+import { membershipQuery } from '../data/queries'
 
 const SidebarContainer = styled.div`
   width: 100%;
