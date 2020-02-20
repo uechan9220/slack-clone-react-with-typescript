@@ -10,14 +10,23 @@ import { createHttpLink } from 'apollo-link-http'
 import { StoreContextProvider } from './store/store'
 
 const wsLink = new WebSocketLink({
-  uri: `ws://slack-clone-heroku.herokuapp.com/v1/graphql`,
+  uri: `wss://${process.env.REACT_APP_HASURA_ENDPOINT}`,
   options: {
-    reconnect: true
+    reconnect: true,
+    timeout: 30000,
+    connectionParams: {
+      headers: {
+        "x-hasura-admin-secret": process.env.REACT_APP_HASURA_ADMIN_SECRET
+      }
+    }
   }
 })
 
 const httpLink = createHttpLink({
-  uri: 'http://slack-clone-heroku.herokuapp.com/v1/graphql'
+  uri: `http://${process.env.REACT_APP_HASURA_ENDPOINT}`,
+  headers: {
+    "x-hasura-admin-secret": process.env.REACT_APP_HASURA_ADMIN_SECRET
+  }
 })
 
 const link = split(
@@ -34,7 +43,10 @@ const link = split(
 )
 
 const client = new ApolloClient({
-  uri: 'https://slack-clone-heroku.herokuapp.com/v1/graphql'
+  uri: 'https://slack-clone-heroku.herokuapp.com/v1/graphql',
+  headers: {
+    'x-hasura-admin-secret': process.env.REACT_APP_HASURA_ADMIN_SECRET
+  }
 })
 
 const App = () => {
