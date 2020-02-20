@@ -1,23 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Query, QueryResult } from 'react-apollo'
-import gql from 'graphql-tag'
 import { MessageQuery } from '../generated/MessageQuery'
 import { StoreContext } from '../store/store'
 import { messageQuery } from '../data/queries'
-
-const messageSubscription = gql`
-  subscription MessageSubscription($channelId: uuid) {
-    Message(where: { channelId: { _eq: $channelId } }) {
-      id
-      data
-      body
-      User {
-        username
-      }
-    }
-  }
-`
+import { messageSubscription } from '../data/subscriptions'
 
 const Container = styled.div`
   margin-top: 85px;
