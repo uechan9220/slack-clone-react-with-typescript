@@ -3,24 +3,13 @@ import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
 import { StoreContext } from '../store/store'
 import { CreateChannelMutation, CreateMembership } from '../data/mutations'
+import { Modal } from './Modal/Modal.component'
 
 interface Props {
   exitCallback: () => void
 }
 
-const Container = styled.div`
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  background-color: white;
-  z-index: 10;
-  padding: 2rem;
-  color: black;
-  box-sizing: border-box;
-  font-size: 2rem;
-`
+
 
 const ExitButtonContainer = styled.div`
   display: flex;
@@ -67,7 +56,7 @@ const Form = styled.form`
 export function Finder(props: Props) {
   const { user } = React.useContext(StoreContext)
   return (
-    <Container>
+    <Modal>
       <Mutation mutation={CreateMembership} update={() => props.exitCallback()}>
         {(createMembership: any, { data }: any) => (
           <Mutation
@@ -116,6 +105,6 @@ export function Finder(props: Props) {
           </Mutation>
         )}
       </Mutation>
-    </Container>
+    </Modal>
   )
 }
