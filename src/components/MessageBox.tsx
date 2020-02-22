@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Query, QueryResult } from 'react-apollo'
-import { MessageQuery } from '../generated/MessageQuery'
+import { MessageQuery, MessageQuery_Message } from '../generated/MessageQuery'
 import { StoreContext } from '../store/store'
 import { messageQuery } from '../data/queries'
 import { messageSubscription } from '../data/subscriptions'
@@ -28,15 +28,6 @@ const DataSpan = styled.span`
   color: darkgrey;
 `
 
-interface Message {
-  id: string
-  body: string
-  data: string
-  User: {
-    username: string
-  }
-}
-
 export function MessageBox() {
   const messageListRef = React.createRef<HTMLDivElement>()
   const { selectedChannel } = React.useContext(StoreContext)
@@ -52,7 +43,7 @@ export function MessageBox() {
     subscribeToMore({
       variables: { channelId: selectedChannel.id },
       document: messageSubscription,
-      updataQuery: (prev: Message[], { subscriptionData }: any) => {
+      updataQuery: (prev: MessageQuery_Message[], { subscriptionData }: any) => {
         if (!subscriptionData.data) return prev
         return Object.assign({}, prev, subscriptionData.data)
       }
@@ -73,8 +64,9 @@ export function MessageBox() {
             <ul>
               {error ? error : null}
               {/* {data && data!.Message ? <p>Select a channel</p> : null} */}
-              {!loading
-                ? (data!.Message as Message[]).map((message, index) => {
+              {!data || !data.Message ? <p>Selected a channel</p> : null }
+              {!loading && data && data.Message
+                ? data!.Message.map((message, index) => {
                     return (
                       <li key={message.id}>
                         <Username>{message.User.username}</Username>

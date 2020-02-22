@@ -9,6 +9,8 @@ import { Membership } from '../generated/SidebarQuery'
 import { StoreContext } from '../store/store'
 
 import { membershipQuery } from '../data/queries'
+import { MessageQuery_Message } from '../generated/MessageQuery'
+import { messageSubscription } from '../data/subscriptions'
 
 const SidebarContainer = styled.div`
   width: 100%;
@@ -45,45 +47,60 @@ export const Status = styled.span`
 
 export function Sidebar() {
   const { user } = React.useContext(StoreContext)
+  const { selectedChannel } = React.useContext(StoreContext)
   console.log(user)
 
+  const subscription = (subscribeToMore: any) => {
+    subscribeToMore({
+      variables: { channelId: selectedChannel!.id },
+      document: messageSubscription,
+      updataQuery: (prev: MessageQuery_Message[], { subscriptionData }: any) => {
+        if (!subscriptionData.data) return prev
+        return Object.assign({}, prev, subscriptionData.data)
+      }
+    })
+  }
+
   return (
-    <Query query={membershipQuery} variables={{ user: user }}>
-      {({ loading, error, data }: any) => (
-        <SidebarContainer>
-          {!loading && console.log(data)}
-          <Header>
-            <H1>slack clone</H1>
-            <div>
-              <i className="far fa-bell"></i>
-            </div>
-            <UsernameContainer>
-              <Status></Status>
-              Moke
-            </UsernameContainer>
-          </Header>
-          {!loading && data.Membership ? (
-            <>
-              <Channels
-                channels={(data.Membership as Membership[])
-                  .filter(membership => !membership.direct)
-                  .map(membership => membership.Channel)}
-              />
-              <DirectMessages
-                channels={(data.Membership as Membership[]).reduce(
-                  (acc, value) => {
-                    if (value.direct) {
-                      return [...acc, value.Channel]
-                    }
-                    return acc
-                  },
-                  [] as Channel[]
-                )}
-              />
-            </>
-          ) : null}
-        </SidebarContainer>
-      )}
+    <Query query={membershipQuery}>
+      {({ loading, error, data, subscribeToMore }: any) => {
+        subscription(subscribeToMore)
+        return (
+          <SidebarContainer>
+            {!loading && console.log(data)}
+            <Header>
+              <H1>slack clone</H1>
+              <div>
+                <i className="far fa-bell"></i>
+              </div>
+              <UsernameContainer>
+                <Status />
+                Moke
+              </UsernameContainer>
+            </Header>
+            {!loading && data.Membership ? (
+              <>
+                <Channels
+                  channels={(data.Membership as Membership[])
+                    .filter(membership => !membership.direct)
+                    .map(membership => membership.Channel)}
+                />
+                <DirectMessages
+                  channels={(data.Membership as Membership[]).reduce(
+                    (acc, value) => {
+                      if (value.direct) {
+                        return [...acc, value.Channel]
+                      }
+                      return acc
+                    },
+                    [] as Channel[]
+                  )}
+                />
+              </>
+            ) : null}
+          </SidebarContainer>
+        )
+      }}
     </Query>
   )
 }
