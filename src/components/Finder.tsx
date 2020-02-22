@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo'
 import { StoreContext } from '../store/store'
 import { CreateChannelMutation, CreateMembership } from '../data/mutations'
 import { Modal } from './Modal/Modal.component'
+import { Input } from '../styles/Input.styles'
 
 interface Props {
   exitCallback: () => void
@@ -89,7 +90,7 @@ export function Finder(props: Props) {
                   }}
                 >
                   <label htmlFor="channelName">Name</label>
-                  <input
+                  <Input
                     name="channelName"
                     id="channelName"
                     placeholder="eg leads"

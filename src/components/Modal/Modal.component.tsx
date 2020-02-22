@@ -34,14 +34,17 @@ const ButtonClose = styled.button`
   cursor: pointer;
   text-align: center;
   background-color: white;
-  font-size: inherit;
+  height: 88px;
+  width: 88px;
   i {
-    width: 100%;
-    height: 100%;
+    font-size: 2rem;
   }
   &:hover {
     background-color: lightgray;
     opacity: 0.7;
+  }
+  span {
+    font-size: 1rem;
   }
 `
 
@@ -66,8 +69,9 @@ export function Modal(props: Props) {
         <ExitButtonContainer>
           <ButtonClose onClick={props.close}>
             <i className="far fa-times-circle" />
+            <span>esc</span>
           </ButtonClose>
-          <h1>Create channel</h1>
+          <h1>Create a channel</h1>
         </ExitButtonContainer>
         <h1>{props.title}</h1>
         {props.children}
