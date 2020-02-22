@@ -1,10 +1,10 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
-import { StoreContext } from '../store/store'
-import { CreateChannelMutation, CreateMembership } from '../data/mutations'
-import { Modal } from './Modal/Modal.component'
-import { Input } from '../styles/Input.styles'
+import { StoreContext } from '../../../store/store'
+import { CreateChannelMutation, CreateMembership } from '../../../data/mutations'
+import { Modal } from '../../Modal/Modal.component'
+import { Input } from '../../../styles/Input.styles'
 
 interface Props {
   exitCallback: () => void

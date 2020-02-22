@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { ChannelProps } from '../generated/ChannelQuery'
 import { StoreContext, Actions } from '../store/store'
 import { Item } from '../styles/SidebarItem.styles'
-import { Finder } from './Finder'
+import { Finder } from './Sidebar/Channels/CreateChannel.component'
 
 const ChannelsTitles = styled.div`
   margin: 2rem 0 1rem;
