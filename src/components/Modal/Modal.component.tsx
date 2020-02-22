@@ -48,35 +48,44 @@ const ButtonClose = styled.button`
   }
 `
 
+const Title = styled.h1`
+  margin: 1.5rem 0;
+`
+
 interface Props {
   children: React.ReactNode[] | React.ReactNode
   close: () => void
   title: string
 }
 
-export function Modal(props: Props) {
-  const modalRoot = document.querySelector('#modal-root')
-  React.useEffect(() => {
-    const elem = document.createElement('div')
-    modalRoot!.appendChild(elem)
-    return () => {
-      modalRoot!.removeChild(elem)
-    }
-  }, [modalRoot])
-  return ReactDOM.createPortal(
-    <Container>
-      <>
-        <ExitButtonContainer>
-          <ButtonClose onClick={props.close}>
-            <i className="far fa-times-circle" />
-            <span>esc</span>
-          </ButtonClose>
-          <h1>Create a channel</h1>
-        </ExitButtonContainer>
-        <h1>{props.title}</h1>
-        {props.children}
-      </>
-    </Container>,
-    modalRoot!
-  )
+export class Modal extends React.Component<Props> {
+  modalRoot: HTMLDivElement
+  constructor(props: Props) {
+    super(props)
+
+    this.modalRoot = document.createElement('div')
+    document.body.appendChild(this.modalRoot)
+  }
+
+  componentWillUnmount() {
+    document.body.removeChild(this.modalRoot)
+  }
+
+  render() {
+    return ReactDOM.createPortal(
+      <Container>
+        <>
+          <ExitButtonContainer>
+            <ButtonClose onClick={this.props.close}>
+              <i className="far fa-times-circle" />
+              <span>esc</span>
+            </ButtonClose>
+          </ExitButtonContainer>
+          <Title>{this.props.title}</Title>
+          {this.props.children}
+        </>
+      </Container>,
+      this.modalRoot
+    )
+  }
 }

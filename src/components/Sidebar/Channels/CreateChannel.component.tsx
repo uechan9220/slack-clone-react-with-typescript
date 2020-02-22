@@ -60,7 +60,7 @@ export function Finder(props: Props) {
   const [ inputValue, setInputValue ] = React.useState<string>('')
   const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)
   return (
-    <Modal close={props.exitCallback} title="Create Title">
+    <Modal close={props.exitCallback} title="Create a channel">
       <Mutation mutation={CreateMembership} update={() => props.exitCallback()}>
         {(createMembership: any, { data }: any) => (
           <Mutation
