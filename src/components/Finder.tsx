@@ -20,7 +20,7 @@ const CloseButton = styled.button`
   margin-top: 1rem;
   margin-right: 1rem;
   cursor: pointer;
-  :hover{
+  :hover {
     border: 3px solid dimgray;
     color: black;
   }
@@ -30,7 +30,12 @@ const SubmitButton = styled(CloseButton)`
   background-color: darkgreen;
   border: 3px solid black;
   color: white;
-  :hover{
+  :disabled{
+    background-color: lightgray;
+    color: black;
+    cursor: default;
+  }
+  &:not(:disabled):hover {
     color: white;
     border-color: 3px solid black;
   }
@@ -51,6 +56,8 @@ const Form = styled.form`
 
 export function Finder(props: Props) {
   const { user } = React.useContext(StoreContext)
+  const [ inputValue, setInputValue ] = React.useState<string>('')
+  const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)
   return (
     <Modal close={props.exitCallback} title="Create Title">
       <Mutation mutation={CreateMembership} update={() => props.exitCallback()}>
@@ -86,9 +93,10 @@ export function Finder(props: Props) {
                     name="channelName"
                     id="channelName"
                     placeholder="eg leads"
+                    onChange={onChangeInputValue}
                   />
                   <CloseButton onClick={props.exitCallback}>Cancel</CloseButton>
-                  <SubmitButton type="submit">Create</SubmitButton>
+                  <SubmitButton disabled={inputValue === ''} type="submit">Create</SubmitButton>
                 </Form>
               </>
             )}
