@@ -9,6 +9,33 @@ interface Props {
   exitCallback: () => void
 }
 
+const CloseButton = styled.button`
+  background-color: white;
+  border: 1px solid lightgray;
+  outline: none;
+  border-radius: 1rem;
+  color: dimgray;
+  padding: 1rem;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  :hover{
+    border: 3px solid dimgray;
+    color: black;
+  }
+`
+
+const SubmitButton = styled(CloseButton)`
+  background-color: darkgreen;
+  border: 3px solid black;
+  color: white;
+  :hover{
+    color: white;
+    border-color: 3px solid black;
+  }
+`
+
 const Form = styled.form`
   max-width: 700px;
   label {
@@ -60,8 +87,8 @@ export function Finder(props: Props) {
                     id="channelName"
                     placeholder="eg leads"
                   />
-                  <button onClick={props.exitCallback}>Cancel</button>
-                  <button type="submit">Create</button>
+                  <CloseButton onClick={props.exitCallback}>Cancel</CloseButton>
+                  <SubmitButton type="submit">Create</SubmitButton>
                 </Form>
               </>
             )}
