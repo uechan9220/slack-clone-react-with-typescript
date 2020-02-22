@@ -9,37 +9,6 @@ interface Props {
   exitCallback: () => void
 }
 
-
-
-const ExitButtonContainer = styled.div`
-  display: flex;
-  align-items: flex-end;
-  flex-direction: column;
-  h1 {
-    width: 100%;
-    text-align: center;
-  }
-`
-
-const ButtonClose = styled.button`
-  outline: none;
-  border: none;
-  border-radius: 50%;
-  padding: 1rem;
-  cursor: pointer;
-  text-align: center;
-  background-color: white;
-  font-size: inherit;
-  i {
-    width: 100%;
-    height: 100%;
-  }
-  &:hover {
-    background-color: lightgray;
-    opacity: 0.7;
-  }
-`
-
 const Form = styled.form`
   max-width: 700px;
   label {
@@ -56,7 +25,7 @@ const Form = styled.form`
 export function Finder(props: Props) {
   const { user } = React.useContext(StoreContext)
   return (
-    <Modal>
+    <Modal close={props.exitCallback} title="Create Title">
       <Mutation mutation={CreateMembership} update={() => props.exitCallback()}>
         {(createMembership: any, { data }: any) => (
           <Mutation
@@ -75,12 +44,6 @@ export function Finder(props: Props) {
           >
             {(createChannel: any, { data }: any) => (
               <>
-                <ExitButtonContainer>
-                  <ButtonClose onClick={props.exitCallback}>
-                    <i className="far fa-times-circle" />
-                  </ButtonClose>
-                  <h1>Create channel</h1>
-                </ExitButtonContainer>
                 <Form
                   onSubmit={(e: any) => {
                     console.log(e.target.channelName.value)
