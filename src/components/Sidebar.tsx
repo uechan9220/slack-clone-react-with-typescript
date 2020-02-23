@@ -78,7 +78,7 @@ export function Sidebar() {
                 Moke
               </UsernameContainer>
             </Header>
-            {!loading && data.Membership ? (
+            {!loading && data && data.Membership ? (
               <>
                 <Channels
                   channels={(data.Membership as Membership[])
