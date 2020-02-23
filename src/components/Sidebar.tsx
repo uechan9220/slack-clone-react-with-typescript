@@ -5,12 +5,12 @@ import { DirectMessages } from './DirectMessage'
 import { Query } from 'react-apollo'
 
 import { Channel } from '../generated/ChannelQuery'
-import { Membership } from '../generated/SidebarQuery'
+import { Membership, SidebarQuery } from '../generated/SidebarQuery'
 import { StoreContext } from '../store/store'
 
 import { membershipQuery } from '../data/queries'
 import { MessageQuery_Message } from '../generated/MessageQuery'
-import { messageSubscription } from '../data/subscriptions'
+import { membershipSubscription } from '../data/subscriptions'
 
 const SidebarContainer = styled.div`
   width: 100%;
@@ -52,9 +52,9 @@ export function Sidebar() {
 
   const subscription = (subscribeToMore: any) => {
     subscribeToMore({
-      variables: { channelId: selectedChannel!.id },
-      document: messageSubscription,
-      updataQuery: (prev: MessageQuery_Message[], { subscriptionData }: any) => {
+      // variables: { channelId: selectedChannel!.id },
+      document: membershipSubscription,
+      updataQuery: (prev: SidebarQuery[], { subscriptionData }: any) => {
         if (!subscriptionData.data) return prev
         return Object.assign({}, prev, subscriptionData.data)
       }
