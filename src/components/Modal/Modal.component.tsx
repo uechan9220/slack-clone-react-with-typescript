@@ -54,7 +54,8 @@ const Title = styled.h1`
 
 const ModalBody = styled.div`
   max-width: 500px;
-  margin: 1.5rem auto;
+  margin: 0 auto;
+  max-height: calc(100vh - 110px);
 `
 
 interface Props {

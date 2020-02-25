@@ -10,15 +10,27 @@ interface Props {
   exitCallback: () => void
 }
 
-const ChannelContainer = styled.div`
+const ChannelItem = styled.div`
   padding: 1rem 2rem;
   border-top: 1px solid ${props => props.theme.borderColorLight};
+  box-sizing: border-box;
+`
+
+const ChannelContainer = styled.div`
+  margin-top: 2rem;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+`
+
+const SearchInput = styled(Input)`
+  width: 100%;
+  box-sizing: border-box;
 `
 
 export function JoinChannel(props: Props) {
   return (
     <Modal close={props.exitCallback} title="Browse Channels">
-      <Query query={allChannelsQuery} variables={{ channelName: "%%" }}>
+      <Query query={allChannelsQuery} variables={{ channelName: '%%' }}>
         {({ loading, error, data }: QueryResult) => {
           if (loading) {
             return <p>loading</p>
@@ -34,17 +46,17 @@ export function JoinChannel(props: Props) {
                   e.target.reset()
                 }}
               >
-                <Input
+                <SearchInput
                   name="channelName"
                   id="channelName"
                   placeholder="Seach channels"
                 />
               </Form>
-              {data.Channel.map((channel: { id: string; name: string }) => (
-                <ChannelContainer key={channel.id}>
-                  # {channel.name}
-                </ChannelContainer>
-              ))}
+              <ChannelContainer>
+                {data.Channel.map((channel: { id: string; name: string }) => (
+                  <ChannelItem key={channel.id}># {channel.name}</ChannelItem>
+                ))}
+              </ChannelContainer>
             </>
           )
         }}
