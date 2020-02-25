@@ -36,7 +36,10 @@ const SubmitButton = styled.button`
 `
 
 export function InputMessage() {
-  const { selectedChannel,user } = React.useContext(StoreContext)
+  const { selectedChannel, user } = React.useContext(StoreContext)
+  const [inputValue, setInputValue] = React.useState('')
+
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)
   return (
     <Mutation mutation={submitMessageMutation}>
       {(submitMessage: any, { data }: any) => (
@@ -63,9 +66,10 @@ export function InputMessage() {
             name="message"
             type="text"
             placeholder="Message boku_doraemoon"
+            onChange={onChangeInput}
           />
-          <SubmitButton type="submit">
-            <i className="fas fa-arrow-alt-circle-right"></i>
+          <SubmitButton type="submit" disabled={inputValue === ''}>
+            <i className="fas fa-arrow-alt-circle-right" />
           </SubmitButton>
         </form>
       )}
