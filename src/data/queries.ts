@@ -14,8 +14,8 @@ export const messageQuery = gql`
 `
 
 export const membershipQuery = gql`
-  query($user: String!) {
-    Membership(where: { userId: { _eq: $user } }) {
+  query MembershipQuery($userId: String!) {
+    Membership(where: { userId: { _eq: $userId } }) {
       id
       direct
       Channel {

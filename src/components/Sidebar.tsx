@@ -45,14 +45,15 @@ export const Status = styled.span`
   display: inline-block;
 `
 
+console.log(membershipQuery)
+
 export function Sidebar() {
   const { user } = React.useContext(StoreContext)
   const { selectedChannel } = React.useContext(StoreContext)
-  console.log(user)
 
   const subscription = (subscribeToMore: any) => {
     subscribeToMore({
-      // variables: { channelId: selectedChannel!.id },
+      variables: { userId: user },
       document: membershipSubscription,
       updataQuery: (prev: SidebarQuery[], { subscriptionData }: any) => {
         if (!subscriptionData.data) return prev
@@ -62,7 +63,7 @@ export function Sidebar() {
   }
 
   return (
-    <Query query={membershipQuery}>
+    <Query query={membershipQuery} variables={{ userId: user }}>
       {({ loading, error, data, subscribeToMore }: any) => {
         subscription(subscribeToMore)
         return (
