@@ -11,8 +11,8 @@ interface Props {
 }
 
 const CloseButton = styled.button`
-  background-color: white;
-  border: 1px solid lightgray;
+  background-color: ${props => `${props.theme.backgroundColorLight}`};
+  border: 1px solid ${props => `${props.theme.borderColorLight}`};
   outline: none;
   border-radius: 1rem;
   color: dimgray;
@@ -23,21 +23,21 @@ const CloseButton = styled.button`
   cursor: pointer;
   :hover {
     border: 3px solid dimgray;
-    color: black;
+    color: ${props => `${props.theme.textColorDark}`};
   }
 `
 
 const SubmitButton = styled(CloseButton)`
   background-color: darkgreen;
   border: 3px solid black;
-  color: white;
+  color: ${props => `${props.theme.textColorLight}`};
   :disabled{
-    background-color: lightgray;
-    color: black;
+    background-color: ${props => `${props.theme.backgroundColorGray}`};
+    color: ${props => `${props.theme.textColorDark}`};
     cursor: default;
   }
   &:not(:disabled):hover {
-    color: white;
+    color: ${props => `${props.theme.textColorLight}`};
     border-color: 3px solid black;
   }
 `

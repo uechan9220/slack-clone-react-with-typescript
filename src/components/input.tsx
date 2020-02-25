@@ -7,13 +7,13 @@ import { submitMessageMutation } from '../data/mutations'
 const InputStyle = styled.input`
   padding: 1rem;
   border-radius: 7px;
-  border: 3px solid darkgray;
+  border: 3px solid ${props => `${props.theme.borderColorDark}`};
   font-size: 1rem;
   outline: none;
   &:hover,
   &:active,
   &:focus {
-    border: 3px solid dimgray;
+    border: 3px solid ${props => `${props.theme.hoverBorderColor}`};
   }
   box-sizing: border-box;
   position: fixed;
@@ -24,9 +24,9 @@ const InputStyle = styled.input`
 const SubmitButton = styled.button`
   border-radius: 7px;
   outline: none;
-  background-color: white;
+  background-color: ${props => `${props.theme.backgroundColorLight}`};
   border: none;
-  border-left: 3px solid darkgray;
+  border-left: 3px solid ${props => `${props.theme.borderColorDark}`};
   position: fixed;
   box-sizing: border-box;
   padding: 1rem;

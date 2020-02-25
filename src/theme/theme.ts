@@ -1,4 +1,9 @@
 export const theme = {
-  borderColor: 'darkgray',
-  hoverBorderColor: 'dimgray'
+  borderColorDark: 'darkgray',
+  borderColorLight: 'lightgray',
+  hoverBorderColor: 'dimgray',
+  textColorLight: 'white',
+  textColorDark: 'black',
+  backgroundColorLight: 'white',
+  backgroundColorGray: 'lightgray'
 }

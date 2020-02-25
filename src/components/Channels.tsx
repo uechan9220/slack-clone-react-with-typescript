@@ -19,7 +19,7 @@ const ChannelsTitles = styled.div`
 const Button = styled.button`
   background-color: transparent;
   padding: 5px;
-  color: white;
+  color: ${props => `${props.theme.textColorLight}`};
   border: none;
   font-size: 1rem;
   &.channel-button {
