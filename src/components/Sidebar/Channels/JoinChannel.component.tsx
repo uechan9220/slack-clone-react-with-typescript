@@ -5,6 +5,7 @@ import { allChannelsQuery } from '../../../data/queries'
 import { Query, QueryResult } from 'react-apollo'
 import styled from 'styled-components'
 import { Input } from '../../../styles/Input.styles'
+import { debounce } from 'lodash'
 
 interface Props {
   exitCallback: () => void
@@ -20,6 +21,9 @@ const ChannelContainer = styled.div`
   margin-top: 2rem;
   max-height: calc(100vh - 200px);
   overflow-y: auto;
+  ${ChannelItem}:last-child {
+    border-bottom: 1px solid ${props => [props.theme.borderColorLight]};
+  }
 `
 
 const SearchInput = styled(Input)`
@@ -28,39 +32,45 @@ const SearchInput = styled(Input)`
 `
 
 export function JoinChannel(props: Props) {
+  const refetchRef = React.useRef<Function>()
+  const fetchData = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    (refetchRef as any).current({ channelName: `%${e.target.value}%` })
+  }, 300)
+  const filterChannels = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.persist()
+    fetchData(e)
+  }
   return (
     <Modal close={props.exitCallback} title="Browse Channels">
-      <Query query={allChannelsQuery} variables={{ channelName: '%%' }}>
-        {({ loading, error, data }: QueryResult) => {
-          if (loading) {
-            return <p>loading</p>
-          }
+      <>
+        <Form>
+          <SearchInput
+            name="channelName"
+            id="channelName"
+            placeholder="Seach channels"
+            onChange={filterChannels}
+          />
+        </Form>
 
-          return (
-            <>
-              <Form
-                onSubmit={(e: any) => {
-                  console.log(e.target.channelName.value)
-                  e.preventDefault()
+        <Query query={allChannelsQuery} variables={{ channelName: '%%' }}>
+          {({ loading, error, data, refetch }: QueryResult) => {
+            refetchRef.current = refetch
+            if (loading) {
+              return <p>loading</p>
+            }
 
-                  e.target.reset()
-                }}
-              >
-                <SearchInput
-                  name="channelName"
-                  id="channelName"
-                  placeholder="Seach channels"
-                />
-              </Form>
-              <ChannelContainer>
-                {data.Channel.map((channel: { id: string; name: string }) => (
-                  <ChannelItem key={channel.id}># {channel.name}</ChannelItem>
-                ))}
-              </ChannelContainer>
-            </>
-          )
-        }}
-      </Query>
+            return (
+              <>
+                <ChannelContainer>
+                  {data.Channel.map((channel: { id: string; name: string }) => (
+                    <ChannelItem key={channel.id}># {channel.name}</ChannelItem>
+                  ))}
+                </ChannelContainer>
+              </>
+            )
+          }}
+        </Query>
+      </>
     </Modal>
   )
 }
