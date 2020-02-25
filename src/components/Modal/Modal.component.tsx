@@ -52,6 +52,11 @@ const Title = styled.h1`
   margin: 1.5rem 0;
 `
 
+const ModalBody = styled.div`
+  max-width: 500px;
+  margin: 1.5rem auto;
+`
+
 interface Props {
   children: React.ReactNode[] | React.ReactNode
   close: () => void
@@ -81,8 +86,10 @@ export class Modal extends React.Component<Props> {
               <span>esc</span>
             </ButtonClose>
           </ExitButtonContainer>
-          <Title>{this.props.title}</Title>
-          {this.props.children}
+          <ModalBody>
+            <Title>{this.props.title}</Title>
+            {this.props.children}
+          </ModalBody>
         </>
       </Container>,
       this.modalRoot

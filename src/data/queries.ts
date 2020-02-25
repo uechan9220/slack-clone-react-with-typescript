@@ -25,3 +25,11 @@ export const membershipQuery = gql`
     }
   }
 `
+
+export const allChannelsQuery = gql`
+  query ChannelsQuery {
+    Channel {
+      name
+    }
+  }
+`
