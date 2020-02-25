@@ -18,7 +18,7 @@ const ChannelContainer = styled.div`
 export function JoinChannel(props: Props) {
   return (
     <Modal close={props.exitCallback} title="Browse Channels">
-      <Query query={allChannelsQuery}>
+      <Query query={allChannelsQuery} variables={{ channelName: "%%" }}>
         {({ loading, error, data }: QueryResult) => {
           if (loading) {
             return <p>loading</p>
