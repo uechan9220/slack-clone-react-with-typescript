@@ -5,7 +5,7 @@ import { Input } from '../styles/Input.styles'
 
 const Container = styled.div`
   z-index: 5;
-  background-color: white;
+  background-color: ${props => `${props.theme.backgroundColorLight}`};
   position: fixed;
   top: 0;
   width: calc(100vw - 240px);
@@ -14,7 +14,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid ${props => `${props.theme.borderColorLight}`};
 `
 
 const Title = styled.div`

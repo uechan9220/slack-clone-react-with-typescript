@@ -6,7 +6,7 @@ import { InputMessage } from './input'
 
 const Container = styled.div`
   padding: 1rem 3rem;
-  color: black;
+  color: ${props => `${props.theme.textColorDark}`};
   display: flex;
   flex-direction: column;
   justify-content: space-between;

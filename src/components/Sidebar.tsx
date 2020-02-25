@@ -16,7 +16,7 @@ const SidebarContainer = styled.div`
   width: 100%;
   background: #5a00b4;
   padding: 1rem;
-  color: white;
+  color: ${props => `${props.theme.textColorLight}`};
 `
 const Header = styled.header`
   display: grid;

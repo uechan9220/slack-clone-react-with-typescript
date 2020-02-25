@@ -8,6 +8,8 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import { createHttpLink } from 'apollo-link-http'
 import { StoreContextProvider } from './store/store'
+import { ThemeProvider } from 'styled-components'
+import { theme } from './theme/theme'
 
 const wsLink = new WebSocketLink({
   uri: `wss://${process.env.REACT_APP_HASURA_ENDPOINT}`,
@@ -16,7 +18,7 @@ const wsLink = new WebSocketLink({
     timeout: 30000,
     connectionParams: {
       headers: {
-        "x-hasura-admin-secret": process.env.REACT_APP_HASURA_ADMIN_SECRET
+        'x-hasura-admin-secret': process.env.REACT_APP_HASURA_ADMIN_SECRET
       }
     }
   }
@@ -25,7 +27,7 @@ const wsLink = new WebSocketLink({
 const httpLink = createHttpLink({
   uri: `http://${process.env.REACT_APP_HASURA_ENDPOINT}`,
   headers: {
-    "x-hasura-admin-secret": process.env.REACT_APP_HASURA_ADMIN_SECRET
+    'x-hasura-admin-secret': process.env.REACT_APP_HASURA_ADMIN_SECRET
   }
 })
 
@@ -52,11 +54,13 @@ const client = new ApolloClient({
 const App = () => {
   return (
     <StoreContextProvider>
-      <ApolloProvider client={client}>
-        <div>
-          <Layout />
-        </div>
-      </ApolloProvider>
+      <ThemeProvider theme={theme}>
+        <ApolloProvider client={client}>
+          <div>
+            <Layout />
+          </div>
+        </ApolloProvider>
+      </ThemeProvider>
     </StoreContextProvider>
   )
 }

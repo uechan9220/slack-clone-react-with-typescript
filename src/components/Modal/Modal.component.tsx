@@ -8,10 +8,10 @@ const Container = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  background-color: white;
+  background-color: ${props => `${props.theme.backgroundColorLight}`};
   z-index: 10;
   padding: 2rem;
-  color: black;
+  color: ${props => `${props.theme.textColorDark}`};
   box-sizing: border-box;
   font-size: 2rem;
 `
@@ -33,14 +33,14 @@ const ButtonClose = styled.button`
   padding: 1rem;
   cursor: pointer;
   text-align: center;
-  background-color: white;
+  background-color: ${props => `${props.theme.backgroundColorLight}`};
   height: 88px;
   width: 88px;
   i {
     font-size: 2rem;
   }
   &:hover {
-    background-color: lightgray;
+    background-color: ${props => `${props.theme.backgroundColorGray}`};
     opacity: 0.7;
   }
   span {
