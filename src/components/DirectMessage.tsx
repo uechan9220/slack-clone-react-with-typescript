@@ -14,6 +14,9 @@ const MessagesTitles = styled.div`
   h2 {
     font-size: 1rem;
   }
+  i{
+    cursor: pointer;
+  }
 `
 
 export function DirectMessages({ channels }: DirectMessageProps) {

@@ -14,6 +14,10 @@ const ChannelsTitles = styled.div`
   flex-wrap: wrap;
   h2 {
     font-size: 1rem;
+    cursor: pointer;
+  }
+  i{
+    cursor: pointer;
   }
 `
 
@@ -23,6 +27,7 @@ const Button = styled.button`
   color: ${props => `${props.theme.textColorLight}`};
   border: none;
   font-size: 1rem;
+  cursor: pointer;
   &.channel-button {
     margin-top: 1rem;
     i {
