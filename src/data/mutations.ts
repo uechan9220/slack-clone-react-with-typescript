@@ -37,7 +37,7 @@ export const submitMessageMutation = gql`
 `
 
 export const joinChannel = gql`
-  mutation joinChannel($userd: String!, $channelId: uuid!) {
+  mutation joinChannel($userId: String!, $channelId: uuid!) {
     insert_Membership(
       objects: { channelId: $channelId, userId: $channelId, direct: false }
     ) {

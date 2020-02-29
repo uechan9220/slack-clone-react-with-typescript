@@ -31,6 +31,9 @@ export const allChannelsQuery = gql`
     Channel(where: { name: { _ilike: $channelName }, Memberships: {direct: {_eq: false}} }) {
       id
       name
+      Memberships {
+        userId
+      }
     }
   }
 `

@@ -36,10 +36,10 @@ const SearchInput = styled(Input)`
 
 export function JoinChannel(props: Props) {
   const { user, dispatch } = React.useContext(StoreContext)
-  const createmembershipRef = React.useRef<Function>()
+  const createMembershipRef = React.useRef<Function>()
   const refetchRef = React.useRef<Function>()
   const fetchData = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-    ;(refetchRef as any).current({ channelName: `%${e.target.value}%` })
+    (refetchRef as any).current({ channelName: `%${e.target.value}%` })
   }, 300)
   const filterChannels = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.persist()
@@ -53,16 +53,17 @@ export function JoinChannel(props: Props) {
     if (memberships.some(membership => membership.userId === user)) {
       dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })
     } else {
-      ;(createmembershipRef as any)
+      (createMembershipRef as any)
         .current({
-          variables: {
-            channelId: channel.id,
-            userId: user
-          }
+          variables: { channelId: channel.id, userId: user }
         })
         .then((res: any) => {
-          const channelAffilication = res.data.insert_Membership.returning[0].Channel
-          dispatch({type: Actions.SELECTED_CHANNEL, payload: channelAffilication})
+          const channelAffilication =
+            res.data.insert_Membership.returning[0].Channel
+          dispatch({
+            type: Actions.SELECTED_CHANNEL,
+            payload: channelAffilication
+          })
         })
     }
     props.exitCallback()
@@ -82,7 +83,7 @@ export function JoinChannel(props: Props) {
 
         <Mutation mutation={joinChannel}>
           {(createMembershipFn: any) => {
-            createmembershipRef.current = createMembershipFn
+            createMembershipRef.current = createMembershipFn
             return (
               <Query query={allChannelsQuery} variables={{ channelName: '%%' }}>
                 {({ loading, error, data, refetch }: QueryResult) => {
