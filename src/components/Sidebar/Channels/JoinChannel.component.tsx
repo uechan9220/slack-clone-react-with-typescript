@@ -6,6 +6,7 @@ import { Query, QueryResult } from 'react-apollo'
 import styled from 'styled-components'
 import { Input } from '../../../styles/Input.styles'
 import { debounce } from 'lodash'
+import { StoreContext, Actions } from '../../../store/store'
 
 interface Props {
   exitCallback: () => void
@@ -15,6 +16,7 @@ const ChannelItem = styled.div`
   padding: 1rem 2rem;
   border-top: 1px solid ${props => props.theme.borderColorLight};
   box-sizing: border-box;
+  cursor:pointer;
 `
 
 const ChannelContainer = styled.div`
@@ -32,6 +34,7 @@ const SearchInput = styled(Input)`
 `
 
 export function JoinChannel(props: Props) {
+  const { user, dispatch } = React.useContext(StoreContext)
   const refetchRef = React.useRef<Function>()
   const fetchData = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     (refetchRef as any).current({ channelName: `%${e.target.value}%` })
@@ -40,6 +43,14 @@ export function JoinChannel(props: Props) {
     e.persist()
     fetchData(e)
   }
+
+  function selectChannel(channel: {id:string, name: string }, memberships: { userId: string }[]) {
+    if (memberships.some(membership => membership.userId === user)) {
+      dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })
+      props.exitCallback();
+    }
+  }
+
   return (
     <Modal close={props.exitCallback} title="Browse Channels">
       <>
@@ -62,8 +73,8 @@ export function JoinChannel(props: Props) {
             return (
               <>
                 <ChannelContainer>
-                  {data.Channel.map((channel: { id: string; name: string }) => (
-                    <ChannelItem key={channel.id}># {channel.name}</ChannelItem>
+                  {data.Channel.map((channel: { id: string; name: string, Memberships: any }) => (
+                    <ChannelItem key={channel.id} onClick={() => selectChannel({id: channel.id, name: channel.name}, channel.Memberships)}># {channel.name}</ChannelItem>
                   ))}
                 </ChannelContainer>
               </>
