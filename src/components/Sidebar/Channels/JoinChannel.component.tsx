@@ -48,7 +48,7 @@ export function JoinChannel(props: Props) {
 
   function selectChannel(
     channel: { id: string; name: string },
-    memberships: { userId: string }[]
+    memberships: { userId: String }[]
   ) {
     if (memberships.some(membership => membership.userId === user)) {
       dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })
