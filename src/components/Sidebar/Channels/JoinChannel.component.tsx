@@ -2,10 +2,12 @@ import * as React from 'react'
 import { Modal } from '../../Modal/Modal.component'
 import { Form } from '../../../styles/ModalButtons'
 import { allChannelsQuery } from '../../../data/queries'
-import { Query, QueryResult } from 'react-apollo'
+import { Query, QueryResult, Mutation } from 'react-apollo'
 import styled from 'styled-components'
 import { Input } from '../../../styles/Input.styles'
 import { debounce } from 'lodash'
+import { StoreContext, Actions } from '../../../store/store'
+import { joinChannel } from '../../../data/mutations'
 
 interface Props {
   exitCallback: () => void
@@ -15,6 +17,7 @@ const ChannelItem = styled.div`
   padding: 1rem 2rem;
   border-top: 1px solid ${props => props.theme.borderColorLight};
   box-sizing: border-box;
+  cursor: pointer;
 `
 
 const ChannelContainer = styled.div`
@@ -32,6 +35,8 @@ const SearchInput = styled(Input)`
 `
 
 export function JoinChannel(props: Props) {
+  const { user, dispatch } = React.useContext(StoreContext)
+  const createMembershipRef = React.useRef<Function>()
   const refetchRef = React.useRef<Function>()
   const fetchData = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     (refetchRef as any).current({ channelName: `%${e.target.value}%` })
@@ -40,6 +45,30 @@ export function JoinChannel(props: Props) {
     e.persist()
     fetchData(e)
   }
+
+  function selectChannel(
+    channel: { id: string; name: string },
+    memberships: { userId: String }[]
+  ) {
+    if (memberships.some(membership => membership.userId === user)) {
+      dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })
+    } else {
+      (createMembershipRef as any)
+        .current({
+          variables: { channelId: channel.id, userId: user }
+        })
+        .then((res: any) => {
+          const channelAffilication =
+            res.data.insert_Membership.returning[0].Channel
+          dispatch({
+            type: Actions.SELECTED_CHANNEL,
+            payload: channelAffilication
+          })
+        })
+    }
+    props.exitCallback()
+  }
+
   return (
     <Modal close={props.exitCallback} title="Browse Channels">
       <>
@@ -52,24 +81,47 @@ export function JoinChannel(props: Props) {
           />
         </Form>
 
-        <Query query={allChannelsQuery} variables={{ channelName: '%%' }}>
-          {({ loading, error, data, refetch }: QueryResult) => {
-            refetchRef.current = refetch
-            if (loading) {
-              return <p>loading</p>
-            }
-
+        <Mutation mutation={joinChannel}>
+          {(createMembershipFn: any) => {
+            createMembershipRef.current = createMembershipFn
             return (
-              <>
-                <ChannelContainer>
-                  {data.Channel.map((channel: { id: string; name: string }) => (
-                    <ChannelItem key={channel.id}># {channel.name}</ChannelItem>
-                  ))}
-                </ChannelContainer>
-              </>
+              <Query query={allChannelsQuery} variables={{ channelName: '%%' }}>
+                {({ loading, error, data, refetch }: QueryResult) => {
+                  refetchRef.current = refetch
+                  if (loading) {
+                    return <p>loading</p>
+                  }
+
+                  return (
+                    <>
+                      <ChannelContainer>
+                        {data.Channel.map(
+                          (channel: {
+                            id: string
+                            name: string
+                            Memberships: any
+                          }) => (
+                            <ChannelItem
+                              key={channel.id}
+                              onClick={() =>
+                                selectChannel(
+                                  { id: channel.id, name: channel.name },
+                                  channel.Memberships
+                                )
+                              }
+                            >
+                              # {channel.name}
+                            </ChannelItem>
+                          )
+                        )}
+                      </ChannelContainer>
+                    </>
+                  )
+                }}
+              </Query>
             )
           }}
-        </Query>
+        </Mutation>
       </>
     </Modal>
   )
