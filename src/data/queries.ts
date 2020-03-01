@@ -28,11 +28,34 @@ export const membershipQuery = gql`
 
 export const allChannelsQuery = gql`
   query ChannelsQuery($channelName: String) {
-    Channel(where: { name: { _ilike: $channelName }, Memberships: {direct: {_eq: false}} }) {
+    Channel(
+      where: {
+        name: { _ilike: $channelName }
+        Memberships: { direct: { _eq: false } }
+      }
+    ) {
       id
       name
       Memberships {
         userId
+      }
+    }
+  }
+`
+
+export const checkMembership = gql`
+  query ExistingMembership($user1: String, $user2: String) {
+    Membership(
+      where: {
+        userId: { _eq: $user1 }
+        direct: { _eq: true }
+        Channel: { Memberships: { userId: { _eq: $user2 } } }
+      }
+    ) {
+      id
+      Channel {
+        name
+        id
       }
     }
   }

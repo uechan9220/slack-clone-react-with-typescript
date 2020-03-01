@@ -44,7 +44,23 @@ export const joinChannel = gql`
       returning {
         id
         Channel {
-          id,
+          id
+          name
+        }
+      }
+    }
+  }
+`
+
+export const createDMChannel = gql`
+  mutation createDMChannel($userId: String!, $channelId: uuid!) {
+    insert_Membership(
+      objects: { channelId: $channelId, userId: $userId, direct: true }
+    ) {
+      returning {
+        id
+        Channel {
+          id
           name
         }
       }
