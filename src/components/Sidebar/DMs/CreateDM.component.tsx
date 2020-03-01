@@ -59,22 +59,21 @@ export function JoinDM(props: Props) {
     fetchData(e)
   }
 
-  function selectUser(
-    user: { id: string; name: string },
-  ) {
-      (createDMRef as any)
-        .current({
-          variables: { userId: user }
-        })
-        .then((res: any) => {
-          console.log(res)
-          // const channelAffilication =
-          //   res.data.insert_Membership.returning[0].Channel
-          // dispatch({
-          //   type: Actions.SELECTED_USER,
-          //   payload: channelAffilication
-          // })
-        })
+  function selectUser(user: { name: string }) {
+    dispatch({ type: Actions.SELECTED_USER, payload: user.name })
+    // (createDMRef as any)
+    //   .current({
+    //     variables: { userId: user }
+    //   })
+    //   .then((res: any) => {
+    //     console.log(res)
+    //     // const channelAffilication =
+    //     //   res.data.insert_Membership.returning[0].Channel
+    //     // dispatch({
+    //     //   type: Actions.SELECTED_USER,
+    //     //   payload: channelAffilication
+    //     // })
+    //   })
     props.exitCallback()
   }
 
@@ -108,16 +107,11 @@ export function JoinDM(props: Props) {
                     <>
                       <ChannelContainer>
                         {data.User.map(
-                          (user: {
-                            id: string
-                            username: string
-                          }) => (
+                          (user: { id: string; username: string }) => (
                             <ChannelItem
                               key={user.id}
                               onClick={() =>
-                                selectUser(
-                                  {id: user.id, name: user.username}
-                                )
+                                selectUser({ name: user.username })
                               }
                             >
                               @ {user.username}

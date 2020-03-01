@@ -27,10 +27,7 @@ type SelectedChannelAction = {
 }
 type UserAction = { type: Actions.USER; payload: string }
 
-type SelectedUserAction = {
-  type: Actions.SELECTED_USER
-  payload: string
-}
+type SelectedUserAction = { type: Actions.SELECTED_USER; payload: string }
 
 type Action = SelectedChannelAction | UserAction | SelectedUserAction
 
