@@ -1,13 +1,14 @@
 import * as React from 'react'
 import { Modal } from '../../Modal/Modal.component'
 import { Form } from '../../../styles/ModalButtons'
-import { allChannelsQuery } from '../../../data/queries'
-import { Query, QueryResult, Mutation } from 'react-apollo'
+import { allUsersQuery, checkMembership } from '../../../data/queries'
+import { Query, QueryResult, Mutation, useQuery } from 'react-apollo'
 import styled from 'styled-components'
 import { Input } from '../../../styles/Input.styles'
 import { debounce } from 'lodash'
 import { StoreContext, Actions } from '../../../store/store'
-import { joinChannel } from '../../../data/mutations'
+import { createDMChannel } from '../../../data/mutations'
+// import { ExistingMembership } from '../../../data/mutations'
 
 interface Props {
   exitCallback: () => void
@@ -42,36 +43,38 @@ const SearchInput = styled(Input)`
 
 export function JoinDM(props: Props) {
   const { user, dispatch } = React.useContext(StoreContext)
-  const createMembershipRef = React.useRef<Function>()
+  const createDMRef = React.useRef<Function>()
   const refetchRef = React.useRef<Function>()
+  const { data, loading, refetch } = useQuery(allUsersQuery, {
+    variables: { currentUserId: user, filter: '%' }
+  })
   const fetchData = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-    ;(refetchRef as any).current({ channelName: `%${e.target.value}%` })
+    refetch({
+      currentUserId: user,
+      filter: `%${e.target.value}%`
+    })
   }, 300)
   const filterChannels = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.persist()
     fetchData(e)
   }
 
-  function selectChannel(
-    channel: { id: string; name: string },
-    memberships: { userId: String }[]
+  function selectUser(
+    user: { id: string; name: string },
   ) {
-    if (memberships.some(membership => membership.userId === user)) {
-      dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })
-    } else {
-      ;(createMembershipRef as any)
+      (createDMRef as any)
         .current({
-          variables: { channelId: channel.id, userId: user }
+          variables: { userId: user }
         })
         .then((res: any) => {
-          const channelAffilication =
-            res.data.insert_Membership.returning[0].Channel
-          dispatch({
-            type: Actions.SELECTED_CHANNEL,
-            payload: channelAffilication
-          })
+          console.log(res)
+          // const channelAffilication =
+          //   res.data.insert_Membership.returning[0].Channel
+          // dispatch({
+          //   type: Actions.SELECTED_USER,
+          //   payload: channelAffilication
+          // })
         })
-    }
     props.exitCallback()
   }
 
@@ -87,11 +90,14 @@ export function JoinDM(props: Props) {
           />
         </Form>
 
-        <Mutation mutation={joinChannel}>
-          {(createMembershipFn: any) => {
-            createMembershipRef.current = createMembershipFn
+        <Mutation mutation={createDMChannel}>
+          {(createDMFn: any) => {
+            createDMRef.current = createDMFn
             return (
-              <Query query={allChannelsQuery} variables={{ channelName: '%%' }}>
+              <Query
+                query={allUsersQuery}
+                variables={{ currentUserId: user, filter: '%%' }}
+              >
                 {({ loading, error, data, refetch }: QueryResult) => {
                   refetchRef.current = refetch
                   if (loading) {
@@ -101,22 +107,20 @@ export function JoinDM(props: Props) {
                   return (
                     <>
                       <ChannelContainer>
-                        {data.Channel.map(
-                          (channel: {
+                        {data.User.map(
+                          (user: {
                             id: string
-                            name: string
-                            Memberships: any
+                            username: string
                           }) => (
                             <ChannelItem
-                              key={channel.id}
+                              key={user.id}
                               onClick={() =>
-                                selectChannel(
-                                  { id: channel.id, name: channel.name },
-                                  channel.Memberships
+                                selectUser(
+                                  {id: user.id, name: user.username}
                                 )
                               }
                             >
-                              # {channel.name}
+                              @ {user.username}
                             </ChannelItem>
                           )
                         )}

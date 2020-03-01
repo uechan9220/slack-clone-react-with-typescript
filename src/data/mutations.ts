@@ -65,5 +65,11 @@ export const createDMChannel = gql`
         }
       }
     }
+    insert_Channel(objects: { name: "", group: "" }) {
+      returning {
+        id
+        name
+      }
+    }
   }
 `

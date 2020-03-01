@@ -60,3 +60,14 @@ export const checkMembership = gql`
     }
   }
 `
+
+export const allUsersQuery = gql`
+  query UsersQuery($currentUserId: String, $filter: String) {
+    User(
+      where: { id: { _neq: $currentUserId }, username: { _ilike: $filter } }
+    ) {
+      id
+      username
+    }
+  }
+`
