@@ -6,12 +6,14 @@ const initialChannel = localStorage.getItem('selected_channel')
 
 const initialStoreValue = {
   selectedChannel: initialChannel,
-  user: localStorage.getItem('current_user') || ''
+  user: localStorage.getItem('current_user') || '',
+  selectedUser: ''
 }
 
 export enum Actions {
   'SELECTED_CHANNEL',
-  'USER'
+  'USER',
+  'SELECTED_USER'
 }
 
 export const StoreContext = React.createContext<Context>({
@@ -25,11 +27,14 @@ type SelectedChannelAction = {
 }
 type UserAction = { type: Actions.USER; payload: string }
 
-type Action = SelectedChannelAction | UserAction
+type SelectedUserAction = { type: Actions.SELECTED_USER; payload: string }
+
+type Action = SelectedChannelAction | UserAction | SelectedUserAction
 
 interface State {
   selectedChannel: { id: string; name: string }
   user: string
+  selectedUser: string
 }
 
 interface Context extends State {
@@ -39,9 +44,11 @@ interface Context extends State {
 function storeReducer(state: State, action: Action): State {
   switch (action.type) {
     case Actions.SELECTED_CHANNEL:
-      return {...state, selectedChannel: action.payload }
+      return { ...state, selectedChannel: action.payload }
     case Actions.USER:
-      return {...state, user : action.payload }
+      return { ...state, user: action.payload }
+    case Actions.SELECTED_USER:
+      return { ...state, selectedUser: action.payload }
     default:
       throw new Error()
   }
