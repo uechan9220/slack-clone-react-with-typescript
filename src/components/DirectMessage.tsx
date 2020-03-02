@@ -4,6 +4,7 @@ import { Status } from './Sidebar'
 import { DirectMessageProps } from '../generated/DirectMessageQuery'
 import { StoreContext, Actions } from '../store/store'
 import { Item } from '../styles/SidebarItem.styles'
+import {JoinDM} from './Sidebar/DMs/CreateDM.component'
 
 const MessagesTitles = styled.div`
   margin: 2rem 0 1rem;
@@ -20,16 +21,18 @@ const MessagesTitles = styled.div`
 `
 
 export function DirectMessages({ channels }: DirectMessageProps) {
-   const { dispatch } = React.useContext(StoreContext)
+  const { dispatch } = React.useContext(StoreContext)
+  const [isCreateDMOpen, setCreateDMModal] = React.useState(false)
 
    const selectChannel = (channel: { id: string; name: string }) => {
      dispatch({ type: Actions.SELECTED_CHANNEL, payload: channel })
    }
   return (
     <>
+      {isCreateDMOpen ? <JoinDM exitCallback={() => setCreateDMModal(false)} /> : null }
       <MessagesTitles>
         <h2>Messages</h2>
-        <i className="fas fa-plus"></i>
+        <i className="fas fa-plus" onClick={() => setCreateDMModal(true)}></i>
       </MessagesTitles>
       <ul>
         {channels.map(channel => (

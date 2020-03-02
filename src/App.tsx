@@ -45,10 +45,10 @@ const link = split(
 )
 
 const client = new ApolloClient({
-  uri: 'https://slack-clone-heroku.herokuapp.com/v1/graphql',
+  uri: `https://${process.env.REACT_APP_HASURA_ENDPOINT}`,
   headers: {
     'x-hasura-admin-secret': process.env.REACT_APP_HASURA_ADMIN_SECRET
-  }
+  },
 })
 
 const App = () => {
